@@ -3,7 +3,7 @@
 /**
  * Class WPML_VC_Website_Builder_Translatable_Nodes
  */
-class WPML_VC_Website_Builder_Translatable_Nodes implements IWPML_Page_Builders_Translatable_Nodes {
+class WPML_VC_Website_Builder_Translatable_Nodes extends WPML_Page_Builders_Translatable_Nodes implements IWPML_Page_Builders_Translatable_Nodes {
 
 	const SETTINGS_FIELD = 'settings';
 
@@ -17,119 +17,40 @@ class WPML_VC_Website_Builder_Translatable_Nodes implements IWPML_Page_Builders_
 	 */
 	private $type;
 
-	/** @var array */
-	private $nodes_to_translate;
-
 	public function __construct() {
 		$this->settings_field = self::SETTINGS_FIELD;
 		$this->type           = 'tag';
 	}
 
 	/**
-	 * @param string|int $node_id
 	 * @param array $settings
+	 * @param string $field_key
 	 *
-	 * @return WPML_PB_String[]
+	 * @return string
 	 */
-	public function get( $node_id, $settings ) {
-
-		if ( ! $this->nodes_to_translate ) {
-			$this->initialize_nodes_to_translate();
-		}
-
-		$strings = array();
-
-		foreach ( $this->nodes_to_translate as $node_type => $node_data ) {
-			if ( $this->conditions_ok( $node_data, $settings ) ) {
-				foreach ( $node_data['fields'] as $field ) {
-					$field_key = $field['field'];
-					if ( isset( $settings[ $field_key ] ) && trim( $settings[ $field_key ] ) ) {
-
-						$string = new WPML_PB_String(
-							$settings[ $field_key ],
-							$this->get_string_name( $node_id, $field, $settings ),
-							$field['type'],
-							$field['editor_type']
-						);
-
-						$strings[] = $string;
-					}
-				}
-				if ( isset( $node_data['integration-class'] ) ) {
-					try {
-						$node    = new $node_data['integration-class']();
-						$strings = $node->get( $node_id, $settings, $strings );
-					} catch ( Exception $e ) {
-					}
-				}
-			}
-		}
-
-		return $strings;
+	public function get_field_value( $settings, $field_key ) {
+		return isset( $settings[ $field_key ] ) ? $settings[ $field_key ] : '';
 	}
 
 	/**
-	 * @param string $node_id
-	 * @param array $settings
-	 * @param WPML_PB_String $string
-	 *
-	 * @return array
-	 */
-	public function update( $node_id, $settings, WPML_PB_String $string ) {
-
-		if ( ! $this->nodes_to_translate ) {
-			$this->initialize_nodes_to_translate();
-		}
-
-		foreach ( $this->nodes_to_translate as $node_type => $node_data ) {
-			if ( $this->conditions_ok( $node_data, $settings ) ) {
-				foreach ( $node_data['fields'] as $field ) {
-					$field_key = $field['field'];
-					if ( $this->get_string_name( $node_id, $field, $settings ) == $string->get_name() ) {
-						$settings[ $field_key ] = $string->get_value();
-					}
-				}
-				if ( isset( $node_data['integration-class'] ) ) {
-					try {
-						$node = new $node_data['integration-class']();
-						$node->update( $node_id, $settings, $string );
-					} catch ( Exception $e ) {
-
-					}
-				}
-			}
-		}
-
-		return $settings;
-	}
-
-	/**
-	 * @param string $node_id
-	 * @param array $field
 	 * @param array $settings
 	 *
 	 * @return string
 	 */
-	public function get_string_name( $node_id, $field, $settings ) {
-		return $field['field'] . '-' . $settings[ $this->type ] . '-' . $node_id;
+	public function get_type( $settings ) {
+		return isset( $settings[ $this->type ] ) ? $settings[ $this->type ] : '';
 	}
 
 	/**
-	 * @param array $node_data
 	 * @param array $settings
+	 * @param string $field_key
+	 * @param WPML_PB_String $string
 	 *
-	 * @return bool
+	 * @return array
 	 */
-	private function conditions_ok( $node_data, $settings ) {
-		$conditions_meet = true;
-		foreach ( $node_data['conditions'] as $field_key => $field_value ) {
-			if ( ! isset( $settings[ $field_key ] ) || $settings[ $field_key ] != $field_value ) {
-				$conditions_meet = false;
-				break;
-			}
-		}
-
-		return $conditions_meet;
+	public function update_field_value( $settings, $field_key, $string ) {
+		$settings[ $field_key ] = $string->get_value();
+		return $settings;
 	}
 
 	public function initialize_nodes_to_translate() {
