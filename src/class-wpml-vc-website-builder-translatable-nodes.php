@@ -3,7 +3,7 @@
 /**
  * Class WPML_VC_Website_Builder_Translatable_Nodes
  */
-class WPML_VC_Website_Builder_Translatable_Nodes extends WPML_Page_Builders_Translatable_Nodes implements IWPML_Page_Builders_Translatable_Nodes {
+class WPML_VC_Website_Builder_Translatable_Nodes extends WPML_Page_Builders_Translatable_Nodes {
 
 	const SETTINGS_FIELD = 'settings';
 
