@@ -66,12 +66,87 @@ class WPML_VC_Website_Builder_Translatable_Nodes extends WPML_Page_Builders_Tran
 					),
 				),
 			),
+			'feature' => array(
+				'conditions' => array( $this->type => 'feature' ),
+				'fields'     => array(
+					array(
+						'field'       => 'description',
+						'type'        => __( 'Feature', 'wpml-string-translation' ),
+						'editor_type' => 'VISUAL'
+					),
+				),
+			),
+			'featureSection' => array(
+				'conditions' => array( $this->type => 'featureSection' ),
+				'fields'     => array(
+					array(
+						'field'       => 'description',
+						'type'        => __( 'Feature Section', 'wpml-string-translation' ),
+						'editor_type' => 'VISUAL'
+					),
+				),
+			),
+			'heroSection' => array(
+				'conditions' => array( $this->type => 'heroSection' ),
+				'fields'     => array(
+					array(
+						'field'       => 'description',
+						'type'        => __( 'Hero Section', 'wpml-string-translation' ),
+						'editor_type' => 'VISUAL'
+					),
+				),
+			),
+			'outlineButton' => array(
+				'conditions' => array( $this->type => 'outlineButton' ),
+				'fields'     => array(
+					array(
+						'field'       => 'buttonText',
+						'type'        => __( 'Outline Button', 'wpml-string-translation' ),
+						'editor_type' => 'LINE'
+					),
+				),
+			),
+			'faqToggle' => array(
+				'conditions' => array( $this->type => 'faqToggle' ),
+				'fields'     => array(
+					array(
+						'field'       => 'textBlock',
+						'type'        => __( 'Faq Toggle: Text Block', 'wpml-string-translation' ),
+						'editor_type' => 'VISUAL'
+					),
+					array(
+						'field'       => 'titleText',
+						'type'        => __( 'Faq Toggle: Title Text', 'wpml-string-translation' ),
+						'editor_type' => 'LINE'
+					),
+				),
+			),
 			'basicButton' => array(
 				'conditions' => array( $this->type => 'basicButton' ),
 				'fields'     => array(
 					array(
 						'field'       => 'buttonText',
 						'type'        => __( 'Basic button', 'wpml-string-translation' ),
+						'editor_type' => 'LINE'
+					),
+				),
+			),
+			'separatorTitle' => array(
+				'conditions' => array( $this->type => 'separatorTitle' ),
+				'fields'     => array(
+					array(
+						'field'       => 'title',
+						'type'        => __( 'Separator Title', 'wpml-string-translation' ),
+						'editor_type' => 'LINE'
+					),
+				),
+			),
+			'featureDescription' => array(
+				'conditions' => array( $this->type => 'featureDescription' ),
+				'fields'     => array(
+					array(
+						'field'       => 'description',
+						'type'        => __( 'Feature Description', 'wpml-string-translation' ),
 						'editor_type' => 'VISUAL'
 					),
 				),
